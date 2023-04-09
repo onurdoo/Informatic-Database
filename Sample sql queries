@@ -1,0 +1,107 @@
+SELECT S.SecId, S.Sem, S.CCode
+FROM SECTION AS S
+WHERE S.Sem = 'Fall';
+
+
+SELECT CurId  
+FROM informatics.curriculum
+where TCredit = 240;
+
+
+SELECT FacMemFName, FacMemMidName,FacMemLName
+FROM informatics.faculty_member
+where DCode = 1;
+
+
+
+
+SELECT related_keywords.RId,  count(distinct Keyword)
+FROM research_area, related_keywords
+where related_keywords.RId = research_area.Rid 												
+group by related_keywords.RId
+having count(distinct Keyword)>5;
+
+
+SELECT student.FName, student.MName, student.LName
+ FROM undergraduate_student, student
+ where gpa >=3
+ and student.SId = undergraduate_student.SId;
+ 
+ 
+SELECT r.id
+ FROM research_area as ra, researches as r
+ where RName = 'Yapay Zeka, Bilgisayarda Öğrenme ve Örüntü Tanıma'
+ and  ra.Rid = r.RId;
+ 
+ 
+ SELECT course.CoName
+FROM section, course
+where course.CCode = section.CCode
+and section.LecId = 1;
+
+
+SELECT student.FName, student.MName, student.LName
+FROM takes, student, course, section
+where course.CoName = 'Büyük Veri'
+and section.CCode = course.CCode
+and takes.SId = student.SId
+and takes.SecId = section.SecID
+and student.Addr = 'Bornova' ;
+
+
+SELECT student.SId, student.FName, student.LName, Sum(Credits)
+FROM section, student, takes, course
+where student.SId = takes.SId
+and section.CCode = course.CCode
+and course.CCode = section.CCode
+and takes.SecID = section.SecId
+group by student.SId;
+
+
+SELECT course.CoName 
+FROM curriculum as c, compose_of as co, section, course
+where c.CurId = co.CurId
+and section.CCode = co.CCode
+and section.CCode = Course.Ccode
+and c.CurId = 11;
+
+
+SELECT s.FName
+ FROM msc_student as ms, student as s, department as d
+ where ms.Sid = s.Sid
+ and ms.GraduateDept != d.DeptType
+ and s.DCode = d.DCode;
+ 
+ SELECT s.FName, s.LName
+ FROM takes as t, student as s, section as se, optional_course as oc
+ WHERE oc.CCode = se.CCode
+ and t.SecId = se.SecID
+ and s.SId = t.SId
+ and oc.OptType = 'NonTech';
+ 
+ Select distinct c.CoName
+ FROM prof_title as p, section as s, course as c, lecturer as l
+ where l.Id = s.LecId
+ and s.CCode = c.CCode
+ and l.Id = p.Id
+ and p.ProfType = 'AssistantProfessor';
+ 
+ Select s.FName, s.LName, se.SecID
+ FROM takes as t, student as s, section as se, faculty_member as fm
+ where s.SId = t.SId
+ and se.SecID = t.SecId
+ and se.LecId = fm.Id
+ and fm.FacMemFName = 'Murat'
+ and fm.FacMemMidName = 'Osman'
+ and t.Grade = 'BB';
+  
+  
+
+SELECT s.FName, s.LName
+ FROM takes as t, student as s, section as se, mandotary_course as mc
+ WHERE mc.CCode = se.CCode
+ and t.SecId = se.SecID
+ and s.SId = t.SId
+ and mc.Objected = 2;
+ 
+ 
